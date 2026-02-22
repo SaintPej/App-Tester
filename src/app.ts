@@ -29,10 +29,23 @@ app.get("/", (_req, res) => {
 
 // Mount better-auth handler BEFORE express.json()
 // better-auth handles its own body parsing
-// Handle both /api/auth/* sub-paths AND the base /api/auth path
+// Wrap in error handler so Vercel doesn't swallow errors silently
 const authHandler = toNodeHandler(auth);
-app.all("/api/auth/*", authHandler);
-app.all("/api/auth", authHandler);
+const wrappedAuthHandler: express.RequestHandler = async (req, res, next) => {
+  try {
+    await authHandler(req, res);
+  } catch (error) {
+    console.error("Auth handler error:", error);
+    if (!res.headersSent) {
+      res.status(500).json({
+        error: "Internal auth error",
+        message: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
+  }
+};
+app.all("/api/auth/*", wrappedAuthHandler);
+app.all("/api/auth", wrappedAuthHandler);
 
 app.use(express.json());
 
