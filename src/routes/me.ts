@@ -6,8 +6,25 @@ const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
   try {
+    // Support Bearer token from server-side callers (e.g. WordPress PHP).
+    // better-auth reads session from cookies, so we inject a synthetic cookie
+    // header when the token arrives via Authorization: Bearer <token>.
+    const authHeader = req.headers.authorization;
+    let headers = req.headers;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+      const token = authHeader.slice(7);
+      const existingCookies = req.headers.cookie || "";
+      const sessionCookie = `better-auth.session_token=${encodeURIComponent(token)}`;
+      headers = {
+        ...req.headers,
+        cookie: existingCookies
+          ? `${existingCookies}; ${sessionCookie}`
+          : sessionCookie,
+      };
+    }
+
     const session = await auth.api.getSession({
-      headers: fromNodeHeaders(req.headers),
+      headers: fromNodeHeaders(headers),
     });
 
     if (!session) {

@@ -45,5 +45,7 @@ export const auth = betterAuth({
     "exp://",
     "exp://**",
     "exp://192.168.*.*:*/**",
+    "http://localhost",
+    "http://localhost:80",
   ],
 });
