@@ -22,6 +22,7 @@ router.get("/", async (req: Request, res: Response) => {
         email: session.user.email,
         image: session.user.image,
         emailVerified: session.user.emailVerified,
+        role: session.user.role,
       },
     });
   } catch (err) {

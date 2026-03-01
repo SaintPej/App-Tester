@@ -12,6 +12,16 @@ export const auth = betterAuth({
     schema,
   }),
   plugins: [expo()],
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        required: false,
+        defaultValue: "adopter",
+        input: true,
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
   },

@@ -13,6 +13,7 @@ router.get("/users", async (_req: Request, res: Response) => {
         name: user.name,
         email: user.email,
         emailVerified: user.emailVerified,
+        role: user.role,
         createdAt: user.createdAt,
       })
       .from(user)
