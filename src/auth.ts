@@ -42,6 +42,8 @@ export const auth = betterAuth({
   trustedOrigins: [
     "sampleauth://",
     "sampleauth://*",
+    "reskyut://",
+    "reskyut://*",
     "exp://",
     "exp://**",
     "exp://192.168.*.*:*/**",
