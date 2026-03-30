@@ -49,8 +49,9 @@ router.post("/", async (req: Request, res: Response) => {
 
     res.json({ url: blob.url });
   } catch (err) {
-    console.error("Image upload error:", err);
-    res.status(500).json({ error: "Upload failed" });
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("Image upload error:", message);
+    res.status(500).json({ error: message });
   }
 });
 
