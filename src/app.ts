@@ -6,6 +6,7 @@ import healthRouter from "./routes/health.js";
 import meRouter from "./routes/me.js";
 import debugRouter from "./routes/debug.js";
 import adoptionApplicationsRouter from "./routes/adoption-applications.js";
+import uploadRouter from "./routes/upload.js";
 
 const app = express();
 
@@ -54,5 +55,6 @@ app.use("/health", healthRouter);
 app.use("/me", meRouter);
 app.use("/debug", debugRouter);
 app.use("/adoption-applications", adoptionApplicationsRouter);
+app.use("/upload-image", uploadRouter);
 
 export default app;
